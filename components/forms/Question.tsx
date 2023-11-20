@@ -19,12 +19,19 @@ import { QuestionSchema } from "@/lib/validations";
 import { fromTheme } from "tailwind-merge";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-import createQuestion from "@/lib/actions/question.action";
+import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
 
 const type: any = "create";
 
-const Question = () => {
+interface QuestionProps {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: QuestionProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
@@ -43,7 +50,15 @@ const Question = () => {
       //make async call to our db to create the question
       //call will contain all form data
       //navigate to home page
-      await createQuestion(values);
+      await createQuestion({
+        title: values.title,
+        explanation: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname,
+      });
+
+      router.push("/");
     } catch (error) {
     } finally {
       setIsSubmitting(false);
