@@ -10,7 +10,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const space_grotesk = Space_Grotesk({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-space_grotesk",
@@ -32,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${space_grotesk.variable}`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
         <ClerkProvider
           appearance={{
             elements: {
