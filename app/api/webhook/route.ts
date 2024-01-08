@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
+    return new Response(`Error occured ${err}`, {
       status: 400,
     });
   }
@@ -98,4 +98,8 @@ export async function POST(req: Request) {
   }
 
   return new Response("", { status: 201 });
+}
+
+export async function GET(req: Request) {
+  return new Response("ok", { status: 200 });
 }
