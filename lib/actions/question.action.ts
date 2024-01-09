@@ -45,7 +45,7 @@ export async function createQuestion(params: CreateQuestionParams) {
     for (const tag of tags) {
       const existingTag = await Tag.findOneAndUpdate(
         { name: { $regex: new RegExp(`^${tag}$`, "i") } },
-        { $setOnInsert: { name: tag }, $push: { question: question._id } },
+        { $setOnInsert: { name: tag }, $push: { questions: question._id } },
         { upsert: true, new: true }
       );
       tagsDocuments.push(existingTag._id);
@@ -58,6 +58,7 @@ export async function createQuestion(params: CreateQuestionParams) {
     //Create an interaction record for the user's ask_question action
     // Increment author reputation by 5 points for creating a question
     revalidatePath(path);
-    
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error creating question:", error);
+  }
 }
